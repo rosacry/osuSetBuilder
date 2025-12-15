@@ -54,8 +54,8 @@ from PySide6.QtWidgets import (
 # ---------------------------------------------------------------------------
 APP_NAME = "osu! Set Builder"
 APP_VERSION = "1.0.0"
-WINDOW_MIN_WIDTH = 900
-WINDOW_MIN_HEIGHT = 720
+WINDOW_MIN_WIDTH = 870
+WINDOW_MIN_HEIGHT = 750
 
 # ---------------------------------------------------------------------------
 # Regex Patterns for .osu File Parsing
@@ -195,8 +195,8 @@ QGroupBox {
     font-weight: bold;
     border: 2px solid #0f3460;
     border-radius: 8px;
-    margin-top: 12px;
-    padding-top: 8px;
+    margin-top: 8px;
+    padding-top: 20px;
     color: #ff66ab;
 }
 
@@ -710,8 +710,6 @@ class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle(f"{APP_NAME} v{APP_VERSION}")
-        self.setMinimumSize(WINDOW_MIN_WIDTH, WINDOW_MIN_HEIGHT)
-        self.resize(1100, 750)
 
         self.songs_dir = self._detect_songs_dir()
         self.global_bg: Optional[Path] = None
@@ -720,11 +718,18 @@ class MainWindow(QWidget):
 
         self._setup_ui()
         self.setStyleSheet(DARK_THEME)
+        
+        # Force layout calculation after UI setup and styling
+        self.adjustSize()
+        # Set minimum to calculated size, then resize slightly larger
+        min_size = self.sizeHint()
+        self.setMinimumSize(min_size.width(), min_size.height())
+        self.resize(min_size.width(), min_size.height())
 
     def _setup_ui(self) -> None:
         root = QVBoxLayout(self)
-        root.setSpacing(16)
-        root.setContentsMargins(20, 20, 20, 20)
+        root.setSpacing(10)
+        root.setContentsMargins(16, 16, 16, 16)
 
         # Header
         self._create_header(root)
@@ -806,7 +811,7 @@ class MainWindow(QWidget):
     def _create_metadata_section(self, layout: QVBoxLayout) -> None:
         group = QGroupBox("Beatmap Metadata")
         group_layout = QVBoxLayout(group)
-        group_layout.setSpacing(12)
+        group_layout.setSpacing(8)
 
         row1 = QHBoxLayout()
         self.title_edit = self._labeled_input(row1, "Title", "Song title")
@@ -855,7 +860,7 @@ class MainWindow(QWidget):
 
     def _create_media_section(self, layout: QVBoxLayout) -> None:
         media = QHBoxLayout()
-        media.setSpacing(20)
+        media.setSpacing(12)
 
         # Background preview
         bg_group = QGroupBox("Background Preview")
@@ -864,7 +869,7 @@ class MainWindow(QWidget):
         self.bg_preview = QLabel("No background selected")
         self.bg_preview.setObjectName("bgPreviewFrame")
         self.bg_preview.setAlignment(Qt.AlignCenter)
-        self.bg_preview.setFixedSize(320, 180)
+        self.bg_preview.setFixedSize(256, 144)
         bg_layout.addWidget(self.bg_preview, alignment=Qt.AlignCenter)
 
         media.addWidget(bg_group)
