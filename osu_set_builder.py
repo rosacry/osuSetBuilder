@@ -54,8 +54,8 @@ from PySide6.QtWidgets import (
 # ---------------------------------------------------------------------------
 APP_NAME = "osu! Set Builder"
 APP_VERSION = "1.0.0"
-WINDOW_MIN_WIDTH = 1000
-WINDOW_MIN_HEIGHT = 700
+WINDOW_MIN_WIDTH = 900
+WINDOW_MIN_HEIGHT = 720
 
 # ---------------------------------------------------------------------------
 # Regex Patterns for .osu File Parsing
@@ -555,7 +555,7 @@ class PreviewPickerDialog(QDialog):
         self, parent: QWidget, audio_path: Path, current_ms: Optional[int] = None
     ):
         super().__init__(parent)
-        self.setWindowTitle("🎵 Pick Preview Point")
+        self.setWindowTitle("Pick Preview Point")
         self.setMinimumWidth(700)
         self.setMinimumHeight(300)
 
@@ -615,7 +615,7 @@ class PreviewPickerDialog(QDialog):
 
         # Volume
         vol_row = QHBoxLayout()
-        vol_row.addWidget(QLabel("🔊 Volume:"))
+        vol_row.addWidget(QLabel("Volume:"))
         self.volume = QSlider(Qt.Horizontal)
         self.volume.setRange(0, 100)
         self.volume.setValue(50)
@@ -627,11 +627,11 @@ class PreviewPickerDialog(QDialog):
 
         # Buttons
         btn_row = QHBoxLayout()
-        self.play_btn = QPushButton("▶ Play")
+        self.play_btn = QPushButton("Play")
         self.play_btn.setMinimumWidth(100)
         btn_row.addWidget(self.play_btn)
         btn_row.addStretch()
-        self.use_btn = QPushButton("✓ Use This Point")
+        self.use_btn = QPushButton("Use This Point")
         self.use_btn.setObjectName("primaryButton")
         self.use_btn.setMinimumWidth(150)
         btn_row.addWidget(self.use_btn)
@@ -688,10 +688,10 @@ class PreviewPickerDialog(QDialog):
     def _toggle_play(self) -> None:
         if self.player.playbackState() == QMediaPlayer.PlayingState:
             self.player.pause()
-            self.play_btn.setText("▶ Play")
+            self.play_btn.setText("Play")
         else:
             self.player.play()
-            self.play_btn.setText("⏸ Pause")
+            self.play_btn.setText("Pause")
 
     def _accept(self) -> None:
         self.selected_ms = self.timeline.value()
@@ -770,7 +770,7 @@ class MainWindow(QWidget):
         toolbar = QHBoxLayout()
         toolbar.setSpacing(10)
 
-        folder_btn = QPushButton("📁 Songs Folder")
+        folder_btn = QPushButton("Songs Folder")
         folder_btn.setToolTip("Set the osu! Songs folder location")
         folder_btn.setObjectName("secondaryButton")
         folder_btn.clicked.connect(self._set_songs_dir)
@@ -778,24 +778,24 @@ class MainWindow(QWidget):
 
         toolbar.addSpacing(20)
 
-        add_btn = QPushButton("➕ Add .osu Files")
+        add_btn = QPushButton("Add .osu Files")
         add_btn.setToolTip("Add beatmap difficulty files")
         add_btn.clicked.connect(self._add_osu)
         toolbar.addWidget(add_btn)
 
-        bg_btn = QPushButton("🖼️ Background")
+        bg_btn = QPushButton("Background")
         bg_btn.setToolTip("Choose a background image")
         bg_btn.clicked.connect(self._choose_global_bg)
         toolbar.addWidget(bg_btn)
 
-        preview_btn = QPushButton("🎵 Preview Point")
+        preview_btn = QPushButton("Preview Point")
         preview_btn.setToolTip("Set the audio preview point")
         preview_btn.clicked.connect(self._set_preview)
         toolbar.addWidget(preview_btn)
 
         toolbar.addStretch()
 
-        clear_btn = QPushButton("🗑️ Clear All")
+        clear_btn = QPushButton("Clear All")
         clear_btn.setToolTip("Clear all difficulties and reset")
         clear_btn.setObjectName("dangerButton")
         clear_btn.clicked.connect(self._clear)
@@ -804,7 +804,7 @@ class MainWindow(QWidget):
         layout.addLayout(toolbar)
 
     def _create_metadata_section(self, layout: QVBoxLayout) -> None:
-        group = QGroupBox("📝 Beatmap Metadata")
+        group = QGroupBox("Beatmap Metadata")
         group_layout = QVBoxLayout(group)
         group_layout.setSpacing(12)
 
@@ -858,7 +858,7 @@ class MainWindow(QWidget):
         media.setSpacing(20)
 
         # Background preview
-        bg_group = QGroupBox("🖼️ Background Preview")
+        bg_group = QGroupBox("Background Preview")
         bg_layout = QVBoxLayout(bg_group)
 
         self.bg_preview = QLabel("No background selected")
@@ -870,7 +870,7 @@ class MainWindow(QWidget):
         media.addWidget(bg_group)
 
         # Preview info
-        preview_group = QGroupBox("🎵 Audio Preview")
+        preview_group = QGroupBox("Audio Preview")
         preview_layout = QVBoxLayout(preview_group)
 
         self.preview_label = QLabel("Preview point not set")
@@ -889,18 +889,18 @@ class MainWindow(QWidget):
         layout.addLayout(media)
 
     def _create_difficulty_table(self, layout: QVBoxLayout) -> None:
-        group = QGroupBox("📋 Difficulties")
+        group = QGroupBox("Difficulties")
         group_layout = QVBoxLayout(group)
 
         toolbar = QHBoxLayout()
 
-        number_btn = QPushButton("🔢 Auto-Number")
+        number_btn = QPushButton("Auto-Number")
         number_btn.setToolTip("Rename to 1, 2, 3...")
         number_btn.setObjectName("secondaryButton")
         number_btn.clicked.connect(self._default_diffs)
         toolbar.addWidget(number_btn)
 
-        remove_btn = QPushButton("➖ Remove Selected")
+        remove_btn = QPushButton("Remove Selected")
         remove_btn.setToolTip("Remove selected difficulty")
         remove_btn.setObjectName("secondaryButton")
         remove_btn.clicked.connect(self._remove_selected)
@@ -942,13 +942,13 @@ class MainWindow(QWidget):
 
         export.addStretch()
 
-        save_btn = QPushButton("💾 Save .osz")
+        save_btn = QPushButton("Save .osz")
         save_btn.setToolTip("Save the beatmap set to a file")
         save_btn.setObjectName("primaryButton")
         save_btn.clicked.connect(self._export_save)
         export.addWidget(save_btn)
 
-        open_btn = QPushButton("🎮 Open in osu!")
+        open_btn = QPushButton("Open in osu!")
         open_btn.setToolTip("Open directly in osu!")
         open_btn.setObjectName("primaryButton")
         open_btn.clicked.connect(self._export_open)
